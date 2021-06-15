@@ -39,6 +39,7 @@ stages:
         tags: ubuntu-16.04
   - job:
     displayName: Reboot ADO build agent
+    dependsOn: Build_Linux_Ubuntu
     pool: 
       vmImage: 'ubuntu-latest'
     steps:
@@ -47,6 +48,7 @@ stages:
         inputs:
           azureSubscription: $(azureSubscription)
           scriptType: bash
+          scriptLocation: inlineScript
           inlineScript: |
             az login
             az account set --subscription $(azureSubscriptionId)
