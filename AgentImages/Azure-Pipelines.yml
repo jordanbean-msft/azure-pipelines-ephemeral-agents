@@ -12,11 +12,9 @@ resources:
 
 variables:
   buildLinuxImage: true
-  buildWindowsImage: false
   dockerRegistryServiceConnection: 'PipelineAgentsImagesRegistry'
-  imageRepository: 'azurepipelinesbasicdeployagent'
+  imageRepository: 'crappserviceperfussccentral'
   linuxDockerfilePath: '$(Build.SourcesDirectory)/AgentImages/Basic/Ubuntu/Dockerfile'
-  winDockerfilePath: '$(Build.SourcesDirectory)/AgentImages/Basic/Windows/Dockerfile'
   
 stages:
 - stage: Build
@@ -24,7 +22,6 @@ stages:
   jobs:  
   - job: Build_Linux_Ubuntu
     displayName: Build Linux Images(s)
-    condition: eq(variables['buildLinuxImage'],'true')
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -36,18 +33,3 @@ stages:
         dockerfile: $(linuxDockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: ubuntu-16.04
-  - job: Build_Windows
-    displayName: Build Windows Image(s)
-    condition: eq(variables['buildWindowsImage'],'true')
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)/windows/servercore
-        dockerfile: $(winDockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: ltsc2019
-
