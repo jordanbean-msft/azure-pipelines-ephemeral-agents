@@ -12,9 +12,13 @@ resources:
 
 variables:
   buildLinuxImage: true
-  dockerRegistryServiceConnection: 'PipelineAgentsImagesRegistry'
-  imageRepository: 'crappserviceperfussccentral'
-  linuxDockerfilePath: '$(Build.SourcesDirectory)/AgentImages/Basic/Ubuntu/Dockerfile'
+  dockerRegistryServiceConnection: PipelineAgentsImagesRegistry
+  imageRepository: crappserviceperfussccentral
+  linuxDockerfilePath: $(Build.SourcesDirectory)/AgentImages/Basic/Ubuntu/Dockerfile
+  azureSubscription: jordanbean-aia
+  azureSubscriptionId: dcf66641-6312-4ee1-b296-723bb0a999ba
+  resourceGroupName: rg-appServicePerf-USSC-central
+  containerInstanceName: cgadoagent
   
 stages:
 - stage: Build
@@ -33,3 +37,16 @@ stages:
         dockerfile: $(linuxDockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: ubuntu-16.04
+  - job:
+    displayName: Reboot ADO build agent
+    pool: 'ubuntu-latest'
+    steps:
+      - task: AzureCLI@2
+        displayName: Reboot ADO build agent to pull latest image
+        inputs:
+          azureSubscription: $(azureSubscription)
+          scriptType: bash
+          inlineScript: |
+            az login
+            az account set --subscription $(azureSubscriptionId)
+            az container restart -g="$(resourceGroupName)" -n="$(containerInstanceName)"
