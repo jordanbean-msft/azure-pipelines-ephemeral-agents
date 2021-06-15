@@ -16,6 +16,7 @@ RUN apt-get update \
         libicu55 \
         libunwind8 \
         netcat \
+        tree \
         wget
 
 # Install AZ CLI
