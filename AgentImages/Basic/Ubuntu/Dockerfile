@@ -23,7 +23,8 @@ RUN apt-get update \
 RUN wget https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update \
+&& apt-get install -y --no-install-recommends \
         dotnet-sdk-5.0
 
 # Install AZ CLI
