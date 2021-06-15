@@ -18,7 +18,8 @@ RUN apt-get update \
         netcat \
         tree \
         wget \
-        apt-transport-https
+        apt-transport-https \
+        unzip
 
 RUN wget https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
