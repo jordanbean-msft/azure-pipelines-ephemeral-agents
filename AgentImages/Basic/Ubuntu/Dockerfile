@@ -17,13 +17,13 @@ RUN apt-get update \
         libunwind8 \
         netcat \
         tree \
-        wget
+        wget \
+        apt-transport-https
 
 RUN wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 
 RUN apt-get install -y --no-install-recommends \
-        apt-transport-https \
         dotnet-sdk-5.0
 
 # Install AZ CLI
