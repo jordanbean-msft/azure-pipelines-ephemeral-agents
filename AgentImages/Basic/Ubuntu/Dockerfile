@@ -5,9 +5,6 @@ FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
-RUN wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN sudo dpkg -i packages-microsoft-prod.deb
-
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -20,9 +17,14 @@ RUN apt-get update \
         libunwind8 \
         netcat \
         tree \
-        apt-transport-https \
-        dotnet-sdk-5.0 \
         wget
+
+RUN wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN sudo dpkg -i packages-microsoft-prod.deb
+
+RUN apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        dotnet-sdk-5.0
 
 # Install AZ CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
