@@ -39,7 +39,8 @@ stages:
         tags: ubuntu-16.04
   - job:
     displayName: Reboot ADO build agent
-    pool: 'ubuntu-latest'
+    pool: 
+      vmImage: 'ubuntu-latest'
     steps:
       - task: AzureCLI@2
         displayName: Reboot ADO build agent to pull latest image
