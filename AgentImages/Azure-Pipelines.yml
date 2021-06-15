@@ -50,6 +50,5 @@ stages:
           scriptType: bash
           scriptLocation: inlineScript
           inlineScript: |
-            az login
             az account set --subscription $(azureSubscriptionId)
             az container restart -g="$(resourceGroupName)" -n="$(containerInstanceName)"
