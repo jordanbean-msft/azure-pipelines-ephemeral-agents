@@ -19,9 +19,7 @@ RUN apt-get update \
         tree \
         wget \
         apt-transport-https \
-        unzip \
-        mssql-tools \
-        unixodbc-dev
+        unzip
 
 RUN wget https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
@@ -29,6 +27,14 @@ RUN dpkg -i packages-microsoft-prod.deb
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
         dotnet-sdk-5.0
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+
+RUN apt-get update \
+&& apt-get install -y --no-install-recommends \
+        mssql-tools \
+        unixodbc-dev
 
 # Install AZ CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
