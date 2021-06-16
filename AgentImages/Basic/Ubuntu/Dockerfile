@@ -21,16 +21,6 @@ RUN apt-get update \
         apt-transport-https \
         unzip
 
-
-
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
-
-RUN apt-get update \
-&& env ACCEPT_EULA=y apt-get install -y --no-install-recommends \
-        mssql-tools \
-        unixodbc-dev
-
 # Install AZ CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 RUN echo "AZURE_EXTENSION_DIR=/usr/local/lib/azureExtensionDir" | tee -a /etc/environment \
@@ -44,6 +34,14 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
         powershell \
         dotnet-sdk-5.0
 
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
+
+RUN apt-get update \
+&& env ACCEPT_EULA=y apt-get install -y --no-install-recommends \
+        mssql-tools \
+        unixodbc-dev
+        
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 
