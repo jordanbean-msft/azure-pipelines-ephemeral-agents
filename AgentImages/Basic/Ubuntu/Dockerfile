@@ -18,7 +18,6 @@ RUN apt-get update \
         netcat \
         tree \
         wget \
-        apt-transport-https \
         unzip
 
 # Install AZ CLI
