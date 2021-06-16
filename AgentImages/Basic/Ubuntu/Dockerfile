@@ -19,7 +19,9 @@ RUN apt-get update \
         tree \
         wget \
         apt-transport-https \
-        unzip
+        unzip \
+        mssql-tools \
+        unixodbc-dev
 
 RUN wget https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
@@ -39,13 +41,14 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
         && apt-get update \
         && apt-get install -y powershell
 
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+
 WORKDIR /azp
 
 RUN mkdir ./patches
 COPY ./patches/AgentService.js ./patches/
 COPY ./start.sh .
-COPY ./start-once.sh .
 RUN chmod +x start.sh
-RUN chmod +x start-once.sh
 
-CMD ["./start-once.sh"]
+CMD ["./start.sh"]
