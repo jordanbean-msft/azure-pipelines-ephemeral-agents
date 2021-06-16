@@ -21,11 +21,6 @@ RUN apt-get update \
         apt-transport-https \
         unzip
 
-# Install AZ CLI
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-RUN echo "AZURE_EXTENSION_DIR=/usr/local/lib/azureExtensionDir" | tee -a /etc/environment \
-    && mkdir -p /usr/local/lib/azureExtensionDir
-
 # Install powershell core
 RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
         && dpkg -i packages-microsoft-prod.deb \
@@ -41,7 +36,12 @@ RUN apt-get update \
 && env ACCEPT_EULA=y apt-get install -y --no-install-recommends \
         mssql-tools \
         unixodbc-dev
-        
+
+# Install AZ CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+RUN echo "AZURE_EXTENSION_DIR=/usr/local/lib/azureExtensionDir" | tee -a /etc/environment \
+    && mkdir -p /usr/local/lib/azureExtensionDir
+
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 
