@@ -21,12 +21,7 @@ RUN apt-get update \
         apt-transport-https \
         unzip
 
-RUN wget https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
 
-RUN apt-get update \
-&& apt-get install -y --no-install-recommends \
-        dotnet-sdk-5.0
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
@@ -45,7 +40,9 @@ RUN echo "AZURE_EXTENSION_DIR=/usr/local/lib/azureExtensionDir" | tee -a /etc/en
 RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
         && dpkg -i packages-microsoft-prod.deb \
         && apt-get update \
-        && apt-get install -y powershell
+        && apt-get install -y \
+        powershell \
+        dotnet-sdk-5.0
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
