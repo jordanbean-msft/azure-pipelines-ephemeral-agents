@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:16.04
 
 # To make it easier for build and release pipelines to run apt-get,
 # configure apt to not require confirmation (assume the -y argument by default)
@@ -13,7 +13,7 @@ RUN apt-get update \
         git \
         iputils-ping \
         libcurl3 \
-        libicu60 \
+        libicu55 \
         libunwind8 \
         netcat \
         tree \
@@ -26,7 +26,7 @@ RUN echo "AZURE_EXTENSION_DIR=/usr/local/lib/azureExtensionDir" | tee -a /etc/en
     && mkdir -p /usr/local/lib/azureExtensionDir
 
 # Install powershell core
-RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb \
+RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
         && dpkg -i packages-microsoft-prod.deb \
         && apt-get update \
         && apt-get install -y powershell
@@ -36,7 +36,7 @@ RUN apt-get update \
         apt-transport-https
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
+RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
 
 RUN apt-get update \
         && apt-get install -y --no-install-recommends \
