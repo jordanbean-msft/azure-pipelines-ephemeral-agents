@@ -16,9 +16,7 @@ RUN apt-get update \
         libicu55 \
         libunwind8 \
         netcat \
-        tree \
-        wget \
-        unzip
+        wget
 
 # Install AZ CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
@@ -46,6 +44,11 @@ RUN apt-get update \
 && env ACCEPT_EULA=y apt-get install -y --no-install-recommends \
         mssql-tools \
         unixodbc-dev
+
+RUN apt-get update \
+&& env ACCEPT_EULA=y apt-get install -y --no-install-recommends \
+        tree \
+        unzip
 
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 RUN echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
